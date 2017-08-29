@@ -1402,6 +1402,7 @@ if(ENABLE_PLUGINS)
 	set(PLUGIN_SRC_DIRS
 		plugins/docsis
 		plugins/ethercat
+		plugins/fapi
 		plugins/gryphon
 		plugins/irda
 		plugins/m2m
