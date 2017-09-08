@@ -2,6 +2,9 @@
 
 #include <epan/packet.h>
 
+
+#define IGNORE_GCC_UNUSED(x)							if(x) {; }
+
 #define FAPI_PORT_RD 								58140U
 #define FAPI_PORT_WR 								58142U
 
@@ -119,7 +122,7 @@ static int hf_fapi_dlconfig_req_pdu_info_pduunion_bchpdu_padding						= -1;
 static int hf_fapi_ulconfig_req											= -1;
 static int hf_fapi_ulconfig_req_sfnsf										= -1;
 static int hf_fapi_ulconfig_req_sfnsf_sfn									= -1;
-static int hf_fapi_ulconfig_req_sfnsf_sf										= -1;
+static int hf_fapi_ulconfig_req_sfnsf_sf									= -1;
 static int hf_fapi_ulconfig_req_ulconfiglen									= -1;
 static int hf_fapi_ulconfig_req_numpdu										= -1;
 static int hf_fapi_ulconfig_req_rachfreqresources								= -1;
@@ -818,8 +821,8 @@ static const value_string ulharq_ind_harqpdu_info_harq_vals[] = {
 	{6, "NACK or DTX"},
 	{7, "ACK or NACK or DTX"},
 };
-
-static int dissect_fapi_subframe_sfnsf(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree _U_, void *data _U_, guint *offset _U_)
+/*
+static int dissect_fapi_subframe_sfnsf(tvbuff_t *tvb, packet_info *pinfo _U_, proto_tree *tree _U_, void *data _U_, guint *offset _U_)
 {
         proto_item *fapi_subframe_ind_sfnsf_item = proto_tree_add_item(tree, hf_fapi_subframe_ind_sfnsf, tvb, *offset, 2, ENC_NA);
 
@@ -833,8 +836,9 @@ static int dissect_fapi_subframe_sfnsf(tvbuff_t *tvb, packet_info *pinfo, proto_
 
         return tvb_captured_length(tvb);
 }
+ */
 
-static int dissect_fapi_dlconfig_req_pdu_info_pduunion_dcipdu_dcipdu_1(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint8 pdu_size _U_)
+static int dissect_fapi_dlconfig_req_pdu_info_pduunion_dcipdu_dcipdu_1(tvbuff_t *tvb, packet_info *pinfo _U_, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint8 pdu_size _U_)
 {
     proto_item *fapi_dlconfig_pdu_info_pduunion_dcipdu_dcipdu_1_item = proto_tree_add_item(tree, hf_fapi_dlconfig_req_pdu_info_pduunion_dcipdu_dcipdu_1, tvb, *offset, pdu_size, ENC_NA);
 
@@ -928,7 +932,7 @@ static int dissect_fapi_dlconfig_req_pdu_info_pduunion_dcipdu_dcipdu_1(tvbuff_t 
     return tvb_captured_length(tvb);
 }
 
-static int dissect_fapi_dlconfig_req_pdu_info_pduunion_dcipdu_dcipdu_1a(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint8 pdu_size _U_) 
+static int dissect_fapi_dlconfig_req_pdu_info_pduunion_dcipdu_dcipdu_1a(tvbuff_t *tvb, packet_info *pinfo _U_, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint8 pdu_size _U_) 
 {
     proto_item *fapi_dlconfig_pdu_info_pduunion_dcipdu_dcipdu_1a_item = proto_tree_add_item(tree, hf_fapi_dlconfig_req_pdu_info_pduunion_dcipdu_dcipdu_1a, tvb, *offset, pdu_size, ENC_NA);
 
@@ -1043,7 +1047,7 @@ static int dissect_fapi_dlconfig_req_pdu_info_pduunion_dcipdu_dcipdu_1a(tvbuff_t
     return tvb_captured_length(tvb);
 }
 
-static int dissect_fapi_dlconfig_pdu_info_pduunion_dlschpdu_beamformingvectorinfo(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree _U_, void *data _U_, guint *offset)
+static int dissect_fapi_dlconfig_pdu_info_pduunion_dlschpdu_beamformingvectorinfo(tvbuff_t *tvb, packet_info *pinfo _U_, proto_tree *tree _U_, void *data _U_, guint *offset)
 {
     guint8 pdu_size = 2 * (tvb_get_guint8(tvb, *offset) + 1);
 
@@ -1075,7 +1079,7 @@ static int dissect_fapi_dlconfig_pdu_info_pduunion_dlschpdu_beamformingvectorinf
     return tvb_captured_length(tvb);
 }
 
-static int dissect_fapi_dlconfig_req_pdu_info_pduunion_dlschpdu(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint8 pdu_size _U_)
+static int dissect_fapi_dlconfig_req_pdu_info_pduunion_dlschpdu(tvbuff_t *tvb, packet_info *pinfo _U_, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint8 pdu_size _U_)
 {
 	proto_item *fapi_dlconfig_pdu_info_pduunion_dlschpdu_item = proto_tree_add_item(tree, hf_fapi_dlconfig_req_pdu_info_pduunion_dlschpdu, tvb, *offset, pdu_size, ENC_NA);
 
@@ -1201,7 +1205,7 @@ static int dissect_fapi_dlconfig_req_pdu_info_pduunion_dlschpdu(tvbuff_t *tvb, p
 	return tvb_captured_length(tvb);
 }
 
-static int dissect_fapi_dlconfig_req_pdu_info_pduunion_bchpdu(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint8 pdu_size _U_)
+static int dissect_fapi_dlconfig_req_pdu_info_pduunion_bchpdu(tvbuff_t *tvb, packet_info *pinfo _U_, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint8 pdu_size _U_)
 {
     proto_item *fapi_dlconfig_pdu_info_pduunion_bchpdu_item = proto_tree_add_item(tree, hf_fapi_dlconfig_req_pdu_info_pduunion_bchpdu, tvb, *offset, pdu_size, ENC_NA);
 
@@ -1228,7 +1232,7 @@ static int dissect_fapi_dlconfig_req_pdu_info_pduunion_bchpdu(tvbuff_t *tvb, pac
     return tvb_captured_length(tvb);
 }
 
-static int dissect_fapi_dlconfig_req_pdu_info_pduunion_dcipdu(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint8 pdu_size _U_)
+static int dissect_fapi_dlconfig_req_pdu_info_pduunion_dcipdu(tvbuff_t *tvb, packet_info *pinfo _U_, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint8 pdu_size _U_)
 {
     guint8 dciFormat = tvb_get_guint8(tvb, *offset);
 
@@ -1271,7 +1275,7 @@ static int dissect_fapi_dlconfig_req_pdu_info_pduunion_dcipdu(tvbuff_t *tvb, pac
 }
 
 
-static int dissect_fapi_ulconfig_req_pdu_info_pduconfiginfo_srpdu_srinfo(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint8 pdu_size _U_)
+static int dissect_fapi_ulconfig_req_pdu_info_pduconfiginfo_srpdu_srinfo(tvbuff_t *tvb, packet_info *pinfo _U_, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint8 pdu_size _U_)
 {
     proto_item *fapi_ulconfig_pdu_info_pduconfiginfo_srpdu_srinfo_item = proto_tree_add_item(tree, hf_fapi_ulconfig_req_pdu_info_pduconfiginfo_srpdu_srinfo, tvb, *offset, -1, ENC_NA);
 
@@ -1283,7 +1287,7 @@ static int dissect_fapi_ulconfig_req_pdu_info_pduconfiginfo_srpdu_srinfo(tvbuff_
     return tvb_captured_length(tvb);
 }
 
-static int dissect_fapi_ulconfig_req_pdu_info_pduconfiginfo_ulschharqpdu_ulschpduinfo(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint8 pdu_size _U_)
+static int dissect_fapi_ulconfig_req_pdu_info_pduconfiginfo_ulschharqpdu_ulschpduinfo(tvbuff_t *tvb, packet_info *pinfo _U_, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint8 pdu_size _U_)
 {
     proto_item *fapi_ulconfig_pdu_info_pduconfiginfo_ulschharqpdu_ulschpduinfo_item = proto_tree_add_item(tree, hf_fapi_ulconfig_req_pdu_info_pduconfiginfo_ulschharqpdu_ulschpduinfo, tvb, *offset, pdu_size, ENC_NA);
 
@@ -1364,7 +1368,7 @@ static int dissect_fapi_ulconfig_req_pdu_info_pduconfiginfo_ulschharqpdu_ulschpd
     return tvb_captured_length(tvb);
 }
 
-static int dissect_fapi_ulconfig_req_pdu_info_pduconfiginfo_ulschharqpdu_harqinfo(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint8 pdu_size _U_)
+static int dissect_fapi_ulconfig_req_pdu_info_pduconfiginfo_ulschharqpdu_harqinfo(tvbuff_t *tvb, packet_info *pinfo _U_, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint8 pdu_size _U_)
 {
     proto_item *fapi_ulconfig_pdu_info_pduconfiginfo_ulschharqpdu_harqinfo_item = proto_tree_add_item(tree, hf_fapi_ulconfig_req_pdu_info_pduconfiginfo_ulschharqpdu_harqinfo, tvb, *offset, pdu_size, ENC_NA);
 
@@ -1391,7 +1395,7 @@ static int dissect_fapi_ulconfig_req_pdu_info_pduconfiginfo_ulschharqpdu_harqinf
     return tvb_captured_length(tvb);
 }
 
-static int dissect_fapi_ulconfig_req_pdu_info_pduconfiginfo_ulschharqpdu_initialtxparaminfo(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint8 pdu_size _U_)
+static int dissect_fapi_ulconfig_req_pdu_info_pduconfiginfo_ulschharqpdu_initialtxparaminfo(tvbuff_t *tvb, packet_info *pinfo _U_, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint8 pdu_size _U_)
 {
     proto_item *fapi_ulconfig_pdu_info_pduconfiginfo_ulschharqpdu_initialtxparaminfo_item = proto_tree_add_item(tree, hf_fapi_ulconfig_req_pdu_info_pduconfiginfo_ulschharqpdu_initialtxparaminfo, tvb, *offset, pdu_size, ENC_NA);
 
@@ -1413,7 +1417,7 @@ static int dissect_fapi_ulconfig_req_pdu_info_pduconfiginfo_ulschharqpdu_initial
     return tvb_captured_length(tvb);
 }
 
-static int dissect_fapi_ulconfig_req_pdu_info_pduconfiginfo_ulschcqiripdu_ulschpduinfo(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint8 pdu_size _U_)
+static int dissect_fapi_ulconfig_req_pdu_info_pduconfiginfo_ulschcqiripdu_ulschpduinfo(tvbuff_t *tvb, packet_info *pinfo _U_, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint8 pdu_size _U_)
 {
     proto_item *fapi_ulconfig_pdu_info_pduconfiginfo_ulschcqiripdu_ulschpduinfo_item = proto_tree_add_item(tree, hf_fapi_ulconfig_req_pdu_info_pduconfiginfo_ulschcqiripdu_ulschpduinfo, tvb, *offset, pdu_size, ENC_NA);
 
@@ -1494,7 +1498,7 @@ static int dissect_fapi_ulconfig_req_pdu_info_pduconfiginfo_ulschcqiripdu_ulschp
     return tvb_captured_length(tvb);
 }
 
-static int dissect_fapi_ulconfig_req_pdu_info_pduconfiginfo_ulschcqiripdu_cqiripduinfo(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint8 pdu_size _U_) 
+static int dissect_fapi_ulconfig_req_pdu_info_pduconfiginfo_ulschcqiripdu_cqiripduinfo(tvbuff_t *tvb, packet_info *pinfo _U_, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint8 pdu_size _U_) 
 {
     proto_item *fapi_ulconfig_pdu_info_pduconfiginfo_ulschcqiripdu_cqiripduinfo_item = proto_tree_add_item(tree, hf_fapi_ulconfig_req_pdu_info_pduconfiginfo_ulschcqiripdu_cqiripduinfo, tvb, *offset, pdu_size, ENC_NA);
 
@@ -1532,7 +1536,7 @@ static int dissect_fapi_ulconfig_req_pdu_info_pduconfiginfo_ulschcqiripdu_cqirip
 }
 
 
-static int dissect_fapi_ulconfig_req_pdu_info_pduconfiginfo_ulschcqiripdu_initialtxparaminfo(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint8 pdu_size _U_)
+static int dissect_fapi_ulconfig_req_pdu_info_pduconfiginfo_ulschcqiripdu_initialtxparaminfo(tvbuff_t *tvb, packet_info *pinfo _U_, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint8 pdu_size _U_)
 {
     proto_item *fapi_ulconfig_pdu_info_pduconfiginfo_ulschcqiripdu_initialtxparaminfo_item = proto_tree_add_item(tree, hf_fapi_ulconfig_req_pdu_info_pduconfiginfo_ulschcqiripdu_initialtxparaminfo, tvb, *offset, pdu_size, ENC_NA);
 
@@ -1555,7 +1559,7 @@ static int dissect_fapi_ulconfig_req_pdu_info_pduconfiginfo_ulschcqiripdu_initia
 }
 
 
-static int dissect_fapi_ulconfig_req_pdu_info_pduconfiginfo_ulschcqiripdu(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint8 pdu_size _U_)
+static int dissect_fapi_ulconfig_req_pdu_info_pduconfiginfo_ulschcqiripdu(tvbuff_t *tvb, packet_info *pinfo _U_, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint8 pdu_size _U_)
 {
 	proto_item *fapi_ulconfig_pdu_info_pduconfiginfo_ulschcqiripdu_item = proto_tree_add_item(tree, hf_fapi_ulconfig_req_pdu_info_pduconfiginfo_ulschcqiripdu, tvb, *offset, pdu_size, ENC_NA);
 
@@ -1571,7 +1575,7 @@ static int dissect_fapi_ulconfig_req_pdu_info_pduconfiginfo_ulschcqiripdu(tvbuff
 	return tvb_captured_length(tvb);
 }
 
-static int dissect_fapi_ulconfig_req_pdu_info_pduconfiginfo_ulschharqpdu(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint8 pdu_size _U_)
+static int dissect_fapi_ulconfig_req_pdu_info_pduconfiginfo_ulschharqpdu(tvbuff_t *tvb, packet_info *pinfo _U_, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint8 pdu_size _U_)
 {
 	proto_item *fapi_ulconfig_pdu_info_pduconfiginfo_ulschharqpdu_item = proto_tree_add_item(tree, hf_fapi_ulconfig_req_pdu_info_pduconfiginfo_ulschharqpdu, tvb, *offset, pdu_size, ENC_NA);
 
@@ -1587,7 +1591,7 @@ static int dissect_fapi_ulconfig_req_pdu_info_pduconfiginfo_ulschharqpdu(tvbuff_
 	return tvb_captured_length(tvb);
 }
 
-static int dissect_fapi_ulconfig_req_pdu_info_pduconfiginfo_ulschpdu(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint8 pdu_size _U_)
+static int dissect_fapi_ulconfig_req_pdu_info_pduconfiginfo_ulschpdu(tvbuff_t *tvb, packet_info *pinfo _U_, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint8 pdu_size _U_)
 {
     proto_item *fapi_ulconfig_pdu_info_pduconfiginfo_ulschpdu_item = proto_tree_add_item(tree, hf_fapi_ulconfig_req_pdu_info_pduconfiginfo_ulschpdu, tvb, *offset, pdu_size, ENC_NA);
 
@@ -1667,7 +1671,7 @@ static int dissect_fapi_ulconfig_req_pdu_info_pduconfiginfo_ulschpdu(tvbuff_t *t
     *offset += 1;
     return tvb_captured_length(tvb);
 }
-static int dissect_fapi_ulconfig_req_pdu_info_pduconfiginfo_srpdu(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint8 pdu_size _U_)
+static int dissect_fapi_ulconfig_req_pdu_info_pduconfiginfo_srpdu(tvbuff_t *tvb, packet_info *pinfo _U_, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint8 pdu_size _U_)
 {
     proto_item *fapi_ulconfig_pdu_info_pduconfiginfo_srpdu_item = proto_tree_add_item(tree, hf_fapi_ulconfig_req_pdu_info_pduconfiginfo_srpdu, tvb, *offset, pdu_size, ENC_NA);
 
@@ -1687,7 +1691,7 @@ static int dissect_fapi_ulconfig_req_pdu_info_pduconfiginfo_srpdu(tvbuff_t *tvb,
     return tvb_captured_length(tvb);
 }
 
-static int dissect_fapi_ulconfig_req_pdu_info_pduconfiginfo_harqpdu_harqinfo(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint8 pdu_size _U_)
+static int dissect_fapi_ulconfig_req_pdu_info_pduconfiginfo_harqpdu_harqinfo(tvbuff_t *tvb, packet_info *pinfo _U_, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint8 pdu_size _U_)
 {
     proto_item *fapi_ulconfig_pdu_info_pduconfiginfo_harqpdu_harqinfo_item = proto_tree_add_item(tree, hf_fapi_ulconfig_req_pdu_info_pduconfiginfo_harqpdu_harqinfo, tvb, *offset, pdu_size, ENC_NA);
 
@@ -1713,7 +1717,7 @@ static int dissect_fapi_ulconfig_req_pdu_info_pduconfiginfo_harqpdu_harqinfo(tvb
     return tvb_captured_length(tvb);
 }
 
-static int dissect_fapi_ulconfig_req_pdu_info_pduconfiginfo_srharqpdu_harqinfo(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint8 pdu_size _U_)
+static int dissect_fapi_ulconfig_req_pdu_info_pduconfiginfo_srharqpdu_harqinfo(tvbuff_t *tvb, packet_info *pinfo _U_, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint8 pdu_size _U_)
 {
     proto_item *fapi_ulconfig_pdu_info_pduconfiginfo_srharqpdu_harqinfo_item = proto_tree_add_item(tree, hf_fapi_ulconfig_req_pdu_info_pduconfiginfo_srharqpdu_harqinfo, tvb, *offset, pdu_size, ENC_NA);
 
@@ -1739,7 +1743,7 @@ static int dissect_fapi_ulconfig_req_pdu_info_pduconfiginfo_srharqpdu_harqinfo(t
     return tvb_captured_length(tvb);
 }
 
-static int dissect_fapi_ulconfig_req_pdu_info_pduconfiginfo_srharqpdu_srinfo(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint8 pdu_size _U_)
+static int dissect_fapi_ulconfig_req_pdu_info_pduconfiginfo_srharqpdu_srinfo(tvbuff_t *tvb, packet_info *pinfo _U_, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint8 pdu_size _U_)
 {
     proto_item *fapi_ulconfig_pdu_info_pduconfiginfo_srharqpdu_srinfo_item = proto_tree_add_item(tree, hf_fapi_ulconfig_req_pdu_info_pduconfiginfo_srharqpdu_srinfo, tvb, *offset, -1, ENC_NA);
 
@@ -1751,7 +1755,7 @@ static int dissect_fapi_ulconfig_req_pdu_info_pduconfiginfo_srharqpdu_srinfo(tvb
     return tvb_captured_length(tvb);
 }
 
-static int dissect_fapi_ulconfig_req_pdu_info_pduconfiginfo_srharqpdu(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint8 pdu_size _U_)
+static int dissect_fapi_ulconfig_req_pdu_info_pduconfiginfo_srharqpdu(tvbuff_t *tvb, packet_info *pinfo _U_, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint8 pdu_size _U_)
 {
         proto_item *fapi_ulconfig_pdu_info_pduconfiginfo_srharqpdu_item = proto_tree_add_item(tree, hf_fapi_ulconfig_req_pdu_info_pduconfiginfo_srharqpdu, tvb, *offset, pdu_size, ENC_NA);
 
@@ -1774,7 +1778,7 @@ static int dissect_fapi_ulconfig_req_pdu_info_pduconfiginfo_srharqpdu(tvbuff_t *
 	return tvb_captured_length(tvb);
 }
 
-static int dissect_fapi_ulconfig_req_pdu_info_pduconfiginfo_harqpdu(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint8 pdu_size _U_)
+static int dissect_fapi_ulconfig_req_pdu_info_pduconfiginfo_harqpdu(tvbuff_t *tvb, packet_info *pinfo _U_, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint8 pdu_size _U_)
 {
     proto_item *fapi_ulconfig_pdu_info_pduconfiginfo_harqpdu_item = proto_tree_add_item(tree, hf_fapi_ulconfig_req_pdu_info_pduconfiginfo_harqpdu, tvb, *offset, pdu_size, ENC_NA);
 
@@ -1799,7 +1803,7 @@ static int dissect_fapi_ulconfig_req_pdu_info_pduconfiginfo_harqpdu(tvbuff_t *tv
     return tvb_captured_length(tvb);
 }
 
-static int dissect_fapi_ulconfig_req_pdu_info_pduconfiginfo_cqipdu(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint8 pdu_size _U_)
+static int dissect_fapi_ulconfig_req_pdu_info_pduconfiginfo_cqipdu(tvbuff_t *tvb, packet_info *pinfo _U_, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint8 pdu_size _U_)
 {
     proto_item *fapi_ulconfig_pdu_info_pduconfiginfo_cqipdu_item = proto_tree_add_item(tree, hf_fapi_ulconfig_req_pdu_info_pduconfiginfo_cqipdu, tvb, *offset, pdu_size, ENC_NA);
 
@@ -1845,7 +1849,7 @@ static int dissect_fapi_ulconfig_req_pdu_info_pduconfiginfo_cqipdu(tvbuff_t *tvb
     return tvb_captured_length(tvb);
 }
 
-static int dissect_fapi_ulconfig_pdu_info(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree _U_, void *data _U_, guint *offset _U_)
+static int dissect_fapi_ulconfig_pdu_info(tvbuff_t *tvb, packet_info *pinfo _U_, proto_tree *tree _U_, void *data _U_, guint *offset _U_)
 {
     guint8 pdu_type = 0;
     guint8 pdu_size = 0;
@@ -1919,7 +1923,7 @@ static int dissect_fapi_ulconfig_pdu_info(tvbuff_t *tvb, packet_info *pinfo, pro
     return tvb_captured_length(tvb);
 }
 
-static int dissect_fapi_dlconfig_pdu_info(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree _U_, void *data _U_, guint *offset _U_)
+static int dissect_fapi_dlconfig_pdu_info(tvbuff_t *tvb, packet_info *pinfo _U_, proto_tree *tree _U_, void *data _U_, guint *offset _U_)
 {
     guint8 pdu_type = 0;
     guint8 pdu_size = 0;
@@ -1972,7 +1976,7 @@ static int dissect_fapi_dlconfig_pdu_info(tvbuff_t *tvb, packet_info *pinfo, pro
     return tvb_captured_length(tvb);
 }
  
-static int dissect_fapi_dldatatx_req_dlpdu_info_tlvinfo(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint pdu_size _U_) 
+static int dissect_fapi_dldatatx_req_dlpdu_info_tlvinfo(tvbuff_t *tvb, packet_info *pinfo _U_, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint pdu_size _U_) 
 {
 	guint16 tag;
 	guint16 taglen;
@@ -2040,7 +2044,7 @@ static int dissect_fapi_dldatatx_req_dlpdu_info(tvbuff_t *tvb, packet_info *pinf
 	return tvb_captured_length(tvb);
 }
 
-static int dissect_fapi_rxulsch_ind_datapduinfo(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint pdu_size _U_, guint *data_offset) 
+static int dissect_fapi_rxulsch_ind_datapduinfo(tvbuff_t *tvb, packet_info *pinfo _U_, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint pdu_size _U_, guint *data_offset) 
 {
 	guint16 data_size = 0;
 
@@ -2092,7 +2096,7 @@ static int dissect_fapi_rxulsch_ind_datapduinfo(tvbuff_t *tvb, packet_info *pinf
 	return tvb_captured_length(tvb);
 }
 
-static int dissect_fapi_ulharq_ind_harqpdu_info(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint pdu_size _U_) 
+static int dissect_fapi_ulharq_ind_harqpdu_info(tvbuff_t *tvb, packet_info *pinfo _U_, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint pdu_size _U_) 
 {
 	proto_item *fapi_ulharq_ind_harqpdu_info_item = proto_tree_add_item(tree, hf_fapi_ulharq_ind_harqpdu_info, tvb, *offset, FAPI_ULHARQ_IND_HARQPDU_INFO_SIZE, ENC_NA);
 
@@ -2119,9 +2123,13 @@ static int dissect_fapi_ulharq_ind_harqpdu_info(tvbuff_t *tvb, packet_info *pinf
 	return tvb_captured_length(tvb);
 }
 
-static int dissect_fapi_ulharq_ind(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint pdu_size _U_) 
+static int dissect_fapi_ulharq_ind(tvbuff_t *tvb, packet_info *pinfo _U_, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint pdu_size _U_) 
 {
 	guint16 numOfHarq;
+
+	guint remaining_size = pdu_size;
+
+	if (remaining_size <= 0) goto exit;
 
 	proto_item *fapi_ulharq_ind_item = proto_tree_add_item(tree, hf_fapi_ulharq_ind, tvb, *offset, pdu_size, ENC_NA);
 
@@ -2137,6 +2145,10 @@ static int dissect_fapi_ulharq_ind(tvbuff_t *tvb, packet_info *pinfo, proto_tree
 
         *offset += 2;
 
+	remaining_size -= 2;
+
+	if (remaining_size <= 0) goto exit;
+
 	proto_tree *fapi_ulharq_ind_numofpreambles_tree = proto_item_add_subtree(fapi_ulharq_ind_item, ett_fapi_ulharq_ind_numofharq);
 	proto_tree_add_item(fapi_ulharq_ind_numofpreambles_tree, hf_fapi_ulharq_ind_numofharq, tvb, *offset, 2, ENC_BIG_ENDIAN);
 
@@ -2144,15 +2156,22 @@ static int dissect_fapi_ulharq_ind(tvbuff_t *tvb, packet_info *pinfo, proto_tree
 
 	*offset += 2;
 
+	remaining_size -= 2;
+
+	if (remaining_size <= 0) goto exit;
+        
 	guint16 i;
-	for (i = 0; i < numOfHarq; i++) {
+	for (i = 0; i < numOfHarq && remaining_size >= FAPI_ULHARQ_IND_HARQPDU_INFO_SIZE; i++) {
 		proto_tree *fapi_ulharq_ind_harqpdu_info_tree = proto_item_add_subtree(fapi_ulharq_ind_item, ett_fapi_ulharq_ind_harqpdu_info);
 		dissect_fapi_ulharq_ind_harqpdu_info(tvb, pinfo, fapi_ulharq_ind_harqpdu_info_tree, data, offset, pdu_size - 4);
+
+		remaining_size -= FAPI_ULHARQ_IND_HARQPDU_INFO_SIZE;
 	}
+exit:
 	return tvb_captured_length(tvb);
 }
 
-static int dissect_fapi_rach_ind_rachpdu_info(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint pdu_size _U_) 
+static int dissect_fapi_rach_ind_rachpdu_info(tvbuff_t *tvb, packet_info *pinfo _U_, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint pdu_size _U_) 
 {
 	proto_item *fapi_rach_ind_rachpdu_info_item = proto_tree_add_item(tree, hf_fapi_rach_ind_rachpdu_info, tvb, *offset, FAPI_RACH_IND_RACHPDU_INFO_SIZE, ENC_NA);
 
@@ -2179,7 +2198,7 @@ static int dissect_fapi_rach_ind_rachpdu_info(tvbuff_t *tvb, packet_info *pinfo,
 	return tvb_captured_length(tvb);
 }
 
-static int dissect_fapi_rach_ind(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint pdu_size _U_) 
+static int dissect_fapi_rach_ind(tvbuff_t *tvb, packet_info *pinfo _U_, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint pdu_size _U_) 
 {
 	guint16 numOfPreambles;
 
@@ -2212,11 +2231,11 @@ static int dissect_fapi_rach_ind(tvbuff_t *tvb, packet_info *pinfo, proto_tree *
 	return tvb_captured_length(tvb);
 }
 
-static int dissect_fapi_rxulsch_ind(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint pdu_size _U_) 
+static int dissect_fapi_rxulsch_ind(tvbuff_t *tvb, packet_info *pinfo _U_, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint pdu_size _U_) 
 {
 	guint16 numOfPdu;
 	guint16 i;
-	gint 	data_offset;
+	gint 	data_offset = 0;
 
         proto_item *fapi_rxulsch_ind_item = proto_tree_add_item(tree, hf_fapi_rxulsch_ind, tvb, *offset, pdu_size, ENC_NA);
 
@@ -2253,7 +2272,7 @@ static int dissect_fapi_rxulsch_ind(tvbuff_t *tvb, packet_info *pinfo, proto_tre
 	return tvb_captured_length(tvb);
 }
 
-static int dissect_fapi_ulcrc_ind_crcpdu(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint pdu_size _U_) 
+static int dissect_fapi_ulcrc_ind_crcpdu(tvbuff_t *tvb, packet_info *pinfo _U_, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint pdu_size _U_) 
 {
     proto_item *fapi_ulcrc_ind_crcpdu_item = proto_tree_add_item(tree, hf_fapi_ulcrc_ind_crcpdu, tvb,  *offset, pdu_size, ENC_NA);
 
@@ -2280,7 +2299,7 @@ static int dissect_fapi_ulcrc_ind_crcpdu(tvbuff_t *tvb, packet_info *pinfo, prot
     return tvb_captured_length(tvb);
 }
 
-static int dissect_fapi_ulcrc_ind(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint pdu_size _U_) 
+static int dissect_fapi_ulcrc_ind(tvbuff_t *tvb, packet_info *pinfo _U_, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint pdu_size _U_) 
 {
     proto_item *fapi_ulcrc_ind_item = proto_tree_add_item(tree, hf_fapi_ulcrc_ind, tvb, *offset, pdu_size, ENC_NA);
 
@@ -2313,7 +2332,7 @@ static int dissect_fapi_ulcrc_ind(tvbuff_t *tvb, packet_info *pinfo, proto_tree 
     return tvb_captured_length(tvb);
 }
 
-static int dissect_fapi_dldatatx_req(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint pdu_size _U_) 
+static int dissect_fapi_dldatatx_req(tvbuff_t *tvb, packet_info *pinfo _U_, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint pdu_size _U_) 
 {
 	guint16 numOfPdu;
 	guint16 i;
@@ -2346,7 +2365,7 @@ static int dissect_fapi_dldatatx_req(tvbuff_t *tvb, packet_info *pinfo, proto_tr
 	return tvb_captured_length(tvb);
 }
 
-static int dissect_fapi_ulconfig_req(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint pdu_size _U_) 
+static int dissect_fapi_ulconfig_req(tvbuff_t *tvb, packet_info *pinfo _U_, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint pdu_size _U_) 
 {
 	guint16 ulconfig_len = 0;
 	gint8 i;
@@ -2406,7 +2425,7 @@ static int dissect_fapi_ulconfig_req(tvbuff_t *tvb, packet_info *pinfo, proto_tr
         return tvb_captured_length(tvb);
 }
 
-static int dissect_fapi_dlconfig_req(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint pdu_size _U_) 
+static int dissect_fapi_dlconfig_req(tvbuff_t *tvb, packet_info *pinfo _U_, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint pdu_size _U_) 
 {
 	guint16 txPowerForPCFICH;
         guint16 i;
@@ -2444,7 +2463,7 @@ static int dissect_fapi_dlconfig_req(tvbuff_t *tvb, packet_info *pinfo, proto_tr
 
         *offset += 1;
 
-        proto_item_add_subtree(fapi_dlconfig_req_item, ett_fapi_dlconfig_req_numOfPDU);
+        IGNORE_GCC_UNUSED(proto_item_add_subtree(fapi_dlconfig_req_item, ett_fapi_dlconfig_req_numOfPDU));
         proto_tree_add_item(fapi_dlconfig_req_item, hf_fapi_dlconfig_req_numOfPDU, tvb, *offset, 2, ENC_BIG_ENDIAN);
 
         numOfPDU = tvb_get_guint16(tvb, *offset, ENC_BIG_ENDIAN);
@@ -2484,7 +2503,7 @@ static int dissect_fapi_dlconfig_req(tvbuff_t *tvb, packet_info *pinfo, proto_tr
         return tvb_captured_length(tvb);
 }
  
-static int dissect_fapi_hidci0_hidc0pdu_info_hipdu(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint pdu_size _U_)
+static int dissect_fapi_hidci0_hidc0pdu_info_hipdu(tvbuff_t *tvb, packet_info *pinfo _U_, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint pdu_size _U_)
 {
 	proto_item *fapi_hidci0_hidci0pdu_info_hipdu_item = proto_tree_add_item(tree, hf_fapi_hidci0_hidci0pdu_info_hipdu, tvb, *offset, FAPI_HIDCI0_HIDCI0PDU_INFO_HIPDU_SIZE, ENC_NA); 
 
@@ -2530,7 +2549,7 @@ static int dissect_fapi_hidci0_hidc0pdu_info_hipdu(tvbuff_t *tvb, packet_info *p
 	return tvb_captured_length(tvb);
 }
 
-static int dissect_fapi_hidci0_hidc0pdu_info_hidci0pdu(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint pdu_size _U_)
+static int dissect_fapi_hidci0_hidc0pdu_info_hidci0pdu(tvbuff_t *tvb, packet_info *pinfo _U_, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint pdu_size _U_)
 {
 	proto_item *fapi_hidci0_hidci0pdu_info_dci0pdu_item = proto_tree_add_item(tree, hf_fapi_hidci0_hidci0pdu_info_hidci0, tvb, *offset, FAPI_HIDCI0_HIDCI0PDU_INFO_DCI0PDU_SIZE, ENC_NA); 
 
@@ -2637,7 +2656,7 @@ static int dissect_fapi_hidci0_hidc0pdu_info_hidci0pdu(tvbuff_t *tvb, packet_inf
 	return tvb_captured_length(tvb);
 }
 
-static int dissect_fapi_hidci0_ind(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint pdu_size _U_)
+static int dissect_fapi_hidci0_ind(tvbuff_t *tvb, packet_info *pinfo _U_, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint pdu_size _U_)
 {
 	proto_item *fapi_hidci0_ind_item = proto_tree_add_item(tree, hf_fapi_hidci0_ind, tvb, *offset, pdu_size, ENC_NA);
 
@@ -2691,7 +2710,7 @@ static int dissect_fapi_hidci0_ind(tvbuff_t *tvb, packet_info *pinfo, proto_tree
 
 	return tvb_captured_length(tvb);
 }
-static int dissect_fapi_subframe_ind(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint pdu_size _U_)
+static int dissect_fapi_subframe_ind(tvbuff_t *tvb, packet_info *pinfo _U_, proto_tree *tree _U_, void *data _U_, guint *offset _U_, guint pdu_size _U_)
 {
         proto_item *fapi_subframe_ind_item = proto_tree_add_item(tree, hf_fapi_subframe_ind, tvb, *offset, 4, ENC_NA);
 
@@ -2715,7 +2734,7 @@ static int dissect_fapi_subframe_ind(tvbuff_t *tvb, packet_info *pinfo, proto_tr
         return tvb_captured_length(tvb);
 }
 
-static int dissect_fapi(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree _U_, void *data _U_)
+static int dissect_fapi(tvbuff_t *tvb, packet_info *pinfo _U_, proto_tree *tree _U_, void *data _U_)
 {
     guint8 msg_id = tvb_get_guint8(tvb, 0);
     guint     offset = 0;
@@ -2783,7 +2802,7 @@ static int dissect_fapi(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree _U_,
             default: {
                     proto_item *fapi_message_body_item = proto_tree_add_item(fapi_message_body, hf_fapi_message_body, tvb, offset, msg_len, ENC_NA);
 
-                    proto_item_add_subtree(fapi_message_body_item, ett_fapi_message_body);
+                    IGNORE_GCC_UNUSED(proto_item_add_subtree(fapi_message_body_item, ett_fapi_message_body));
             }
             break;
         } 
